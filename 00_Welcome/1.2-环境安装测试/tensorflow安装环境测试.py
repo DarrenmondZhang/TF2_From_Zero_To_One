@@ -17,8 +17,9 @@ import numpy as np
 
 print(tf.__version__)
 print(np.__version__)
+print(tf.test.is_gpu_available())
 
-mnist = np.load("mnist.npz")
+mnist = np.load("00_Welcome/1.2-环境安装测试/mnist.npz")
 x_train, y_train, x_test, y_test = mnist['x_train'],mnist['y_train'],mnist['x_test'],mnist['y_test']
 
 x_train, x_test = x_train / 255.0, x_test / 255.0
