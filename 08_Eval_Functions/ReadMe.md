@@ -47,3 +47,20 @@ print ('Final result: ', m.result().numpy()
 #Final result: 0.65
 m.reset_states()  # 重置
 ```
+# 02. 自定义评估函数
+`tf.keras.metrics.Metric`
+
+官方API: https://tensorflow.google.cn/api_docs/python/tf/keras/metrics/Metric
+
+两种实现形式:基于类的实现和基于函数的实现；大部分使用基于类的实现
+
+自定义损失函数:
+自定义评估指标需要继承`tf.keras.metrics.Metric`类，并重写`__init__`、`update_state` 和 `result` 三个方法。
+* `__init__()`：所有**状态变量**都应通过以下方法在此方法中创建`self.add_weight()`
+* `update_state()`：对状态变量进行所有更新
+* `result()`：根据状态变量计算并返回指标值。
+
+自定义实现`tf.keras.metrics.SparseCategoricalAccuracy()`
+
+![](media/自定义实现评估函数.jpg)
+![](media/计算多分类正确标签的个数.jpg)
