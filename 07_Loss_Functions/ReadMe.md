@@ -53,18 +53,20 @@ class SparseFocalloss(tf.keras.losses.Loss):
     """
     类实现形式
     """
-    def __init__(self, gamma=2.0, alpha=.25, class_num=10):
+    def __init__(self, gamma=2.0, alpha=0.25, class_num=10):
         self.gamma = gamma
         self.alpha = alpha
         self.class_num = class_num
         super(SparseFocalloss, self).__init_()
     
     def call(self, y_true, y_pred):
+        #### 预测值和真实值的处理 #### 
         y_pred = tf.nn.softmax(y_pred, axis=-1)
         epsilon = tf.keras.backend.epsilon()
-        y_pred = tf.clip_by_value(y_pred, epsilon, 1.0)
+        y_pred = tf.clip_by_value(y_pred, epsilon, 1.0)  # 使得y_pred规定在某个区间，log(x)函数中x是不允许为0的
         y_true = tf.one_hot(y_true, depth=self.class_num)
         y_true = tf.cast(y_true, tf.float32)
+
         loss = -y_true * tf.math.pow(1 - y_pred，self.gamma) * tf.math.log(y_pred)
         loss = tf.math.reduce_sum(loss, axis=1)
         return loss
@@ -75,10 +77,12 @@ def focal_loss(gamma=2.0, alpha=0.25):
     函数实现形式
     """
     def focal_loss_fixed(y_true, y_pred):
+        #### 预测值和真实值的处理 #### 
         y_pred = tf.nn.softmax(y_pred, axis=-1)
         epsilon = tf.keras.backend.epsilon()
         y_pred = tf.clip_by_value(y_pred, epsilon, 1.0)
         y_true = tf.cast(y_true, tf.float32)
+
         loss = -y_true * tf.math.pow(1 - y_pred，gamma) * tf.math.log(y_pred)
         loss = tf.math.reduce_sum(loss, axis=1)
         return loss
