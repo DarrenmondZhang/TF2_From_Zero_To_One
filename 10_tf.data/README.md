@@ -33,9 +33,8 @@
 
 `from_tensors()`和`from_tensor_slices()`区别?
 
-答：`from tensors`函数会把传入的tensor当做一个元素，但是`from tensor_slices()`会把传入的tensor除开第O维之后的大小当做元素个数。
+答：`from tensors`函数会把传入的tensor当做一个元素，但是`from tensor_slices()`会把传入的tensor除开第0维之后的大小当做元素个数。
 ![](media/区别.jpg)
-
 
 Numpy数据:
 假设有一个`feature`数组和相应的标签数组，将两个数组作为元组传递给`tf.data.Dataset.from_tensor_slices`以创建`tf.data.Dataset`
